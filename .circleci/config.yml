@@ -1,12 +1,15 @@
 version: 2.1
-
+orbs:
+  composer: stockfiller/composer@2.0.4
 jobs:
   build:
     docker:
       - image: cimg/php:8.1.15
     steps:
       - checkout
+      - composer/install
       - run: php --version
+      - run: composer --version
 
 workflows:
   build-workflow:

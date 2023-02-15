@@ -10,6 +10,7 @@ jobs:
       - run: curl -sS https://getcomposer.org/installer -o composer-setup.php
       - run: sudo php composer-setup.php --filename=composer --install-dir=/usr/local/bin --2.2
       - run: sudo rm composer-setup.php
+      - run: composer --version
 
 
 workflows:

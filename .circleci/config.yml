@@ -16,9 +16,9 @@ jobs:
             composer install
 
       - run:
-          name: Drush ws
+          name: Security checker
           command:
-            vendor/bin/drush ws
+            vendor/bin/security-checker security:check
 
 workflows:
   build-workflow:

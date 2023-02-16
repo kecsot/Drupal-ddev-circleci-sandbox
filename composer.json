@@ -12,6 +12,10 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     ],
     "require": {
@@ -20,6 +24,10 @@
         "drupal/core-project-message": "^9.4",
         "drupal/core-recommended": "^9.4",
         "drush/drush": "^11.5"
+    },
+    "require-dev": {
+        "mglaman/phpstan-drupal": "^1.1",
+        "phpstan/phpstan": "^1.9"
     },
     "conflict": {
         "drupal/drupal": "*"

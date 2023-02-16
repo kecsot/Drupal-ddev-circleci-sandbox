@@ -4,16 +4,21 @@ jobs:
   build:
     docker:
       - image: cimg/php:8.1.15
-    steps: 
+    steps:
       - checkout
 
-      - run: 
-          name: Setup Composer 
+      - run:
+          name: Setup Composer
           command: |
             curl -sS  https://getcomposer.org/installer -o composer-setup.php
             sudo php composer-setup.php --filename=composer --install-dir=/usr/local/bin --2.2
             sudo rm composer-setup.php
             composer install
+
+      - run:
+          name: PHPStan
+          command:
+            vendor/bin/phpstan analyse
 
       - run:
           name: Security checker

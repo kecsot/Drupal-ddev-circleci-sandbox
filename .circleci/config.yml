@@ -34,8 +34,20 @@ jobs:
           name: Security checker
           command:
             vendor/bin/security-checker security:check
+  test:
+    <<: *default
+    steps:
+      - checkout
+      - *composer_install
+
+      - run:
+          name: tests
+          command:
+            vendor/bin/phpunit
+
 
 workflows:
   build-workflow:
     jobs:
       - lint
+      - test

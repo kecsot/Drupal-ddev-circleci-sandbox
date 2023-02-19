@@ -43,7 +43,7 @@ jobs:
       - run:
           name: tests
           command:
-            vendor/bin/phpunit
+            vendor/bin/phpunit --do-not-cache-result
 
 
 workflows:

@@ -13,6 +13,12 @@ composer_install: &composer_install
       sudo rm composer-setup.php
       composer install
 
+ddev_install: &ddev_install
+  run:
+    name: DDEV composer
+    command: |
+      curl -LO https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh && bash install_ddev.sh
+
 jobs:
   lint:
     <<: *default
@@ -39,11 +45,12 @@ jobs:
     steps:
       - checkout
       - *composer_install
+      - *ddev_install
 
       - run:
-          name: tests
+          name: PHPUnit
           command:
-            vendor/bin/phpunit --do-not-cache-result
+            ddev phpunit --do-not-cache-result
 
 
 workflows:

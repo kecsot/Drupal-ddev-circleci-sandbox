@@ -18,6 +18,7 @@ ddev_install: &ddev_install
     name: DDEV composer
     command: |
       curl -LO https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh && bash install_ddev.sh
+      rm install_ddev.sh
 
 jobs:
   lint:
@@ -41,15 +42,21 @@ jobs:
           command:
             vendor/bin/security-checker security:check
   test:
-    <<: *default
+    docker:
+      - image: cimg/base:2023.02
+    environment:
+      DDEV_NONINTERACTIVE: "true"
     steps:
       - checkout
-      - *composer_install
+      - setup_remote_docker:
+          version: 23.0.1
+
       - *ddev_install
 
       - run:
           name: PHPUnit
-          command:
+          command: |
+            ddev start
             ddev phpunit --do-not-cache-result
 
 

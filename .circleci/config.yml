@@ -1,19 +1,31 @@
 version: 2.1
 
+default: &default
+  docker:
+    - image: cimg/php:8.1.15
+
+composer_install: &composer_install
+  run:
+    name: Install composer
+    command: |
+      curl -sS  https://getcomposer.org/installer -o composer-setup.php
+      sudo php composer-setup.php --filename=composer --install-dir=/usr/local/bin --2.2
+      sudo rm composer-setup.php
+      composer install
+
+ddev_install: &ddev_install
+  run:
+    name: DDEV composer
+    command: |
+      curl -LO https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh && bash install_ddev.sh
+      rm install_ddev.sh
+
 jobs:
   lint:
-    docker:
-      - image: cimg/php:8.1.15
+    <<: *default
     steps:
       - checkout
-
-      - run:
-          name: Install composer
-          command: |
-            curl -sS  https://getcomposer.org/installer -o composer-setup.php
-            sudo php composer-setup.php --filename=composer --install-dir=/usr/local/bin --2.2
-            sudo rm composer-setup.php
-            composer install
+      - *composer_install
 
       - run:
           name: phpstan
@@ -29,8 +41,29 @@ jobs:
           name: Security checker
           command:
             vendor/bin/security-checker security:check
+  test:
+    machine:
+      image: ubuntu-2004:current
+    environment:
+      DDEV_NONINTERACTIVE: "true"
+    steps:
+      - checkout
+      - *ddev_install
+
+      - run:
+          name: Prepare DDEV
+          command: |
+            ddev start
+            ddev composer install
+
+      - run:
+          name: PHPUnit
+          command: |
+            ddev phpunit --do-not-cache-result --testdox
+
 
 workflows:
   build-workflow:
     jobs:
       - lint
+      - test

@@ -42,21 +42,23 @@ jobs:
           command:
             vendor/bin/security-checker security:check
   test:
-    docker:
-      - image: cimg/base:2023.02
+    machine:
+      image: ubuntu-2004:current
     environment:
       DDEV_NONINTERACTIVE: "true"
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.18
-
       - *ddev_install
+
+      - run:
+          name: Prepare DDEV
+          command: |
+            ddev start
+            ddev composer install
 
       - run:
           name: PHPUnit
           command: |
-            ddev start
             ddev phpunit --do-not-cache-result
 
 

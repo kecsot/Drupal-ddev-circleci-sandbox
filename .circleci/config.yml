@@ -59,7 +59,7 @@ jobs:
       - run:
           name: PHPUnit
           command: |
-            ddev phpunit --do-not-cache-result
+            ddev phpunit --do-not-cache-result --testdox
 
 
 workflows:

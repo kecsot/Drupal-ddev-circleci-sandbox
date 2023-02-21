@@ -48,13 +48,17 @@ jobs:
       DDEV_NONINTERACTIVE: "true"
     steps:
       - checkout
-
       - *ddev_install
+
+      - run:
+          name: Prepare DDEV
+          command: |
+            ddev start
+            ddev composer install
 
       - run:
           name: PHPUnit
           command: |
-            ddev start
             ddev phpunit --do-not-cache-result
 
 

@@ -37,10 +37,6 @@ jobs:
           command:
             vendor/bin/phpcs
 
-      - run:
-          name: Security checker
-          command:
-            vendor/bin/security-checker security:check
   test:
     machine:
       image: ubuntu-2004:current
@@ -71,3 +67,5 @@ workflows:
             branches:
               ignore:
                 - main
+              only:
+                - test

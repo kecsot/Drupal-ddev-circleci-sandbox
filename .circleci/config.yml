@@ -66,4 +66,8 @@ workflows:
   build-workflow:
     jobs:
       - lint
-      - test
+      - test:
+          filters:
+            branches:
+              ignore:
+                - main

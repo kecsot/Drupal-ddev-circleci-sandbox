@@ -13,13 +13,6 @@ composer_install: &composer_install
       sudo rm composer-setup.php
       composer install
 
-ddev_install: &ddev_install
-  run:
-    name: DDEV composer
-    command: |
-      curl -LO https://raw.githubusercontent.com/drud/ddev/master/scripts/install_ddev.sh && bash install_ddev.sh
-      rm install_ddev.sh
-
 jobs:
   lint:
     <<: *default
@@ -38,25 +31,15 @@ jobs:
             vendor/bin/phpcs
 
   test:
-    machine:
-      image: ubuntu-2004:current
-    environment:
-      DDEV_NONINTERACTIVE: "true"
+    <<: *default
     steps:
       - checkout
-      - *ddev_install
+      - *composer_install
 
       - run:
-          name: Prepare DDEV
+          name: PHPUnit Kernel
           command: |
-            ddev start
-            ddev composer install
-
-      - run:
-          name: PHPUnit
-          command: |
-            ddev phpunit --do-not-cache-result --testdox
-
+            ./vendor/bin/phpunit --testsuite kernel
 
 workflows:
   build-workflow:
@@ -67,5 +50,4 @@ workflows:
             branches:
               ignore:
                 - main
-              only:
-                - test
+

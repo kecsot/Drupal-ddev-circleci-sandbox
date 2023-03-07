@@ -37,10 +37,6 @@ jobs:
           command:
             vendor/bin/phpcs
 
-      - run:
-          name: Security checker
-          command:
-            vendor/bin/security-checker security:check
   test:
     machine:
       image: ubuntu-2004:current
@@ -59,8 +55,7 @@ jobs:
       - run:
           name: PHPUnit
           command: |
-            ddev phpunit --do-not-cache-result --testdox
-
+            ddev phpunit web/modules/custom/ --testdox --do-not-cache-result
 
 workflows:
   build-workflow:

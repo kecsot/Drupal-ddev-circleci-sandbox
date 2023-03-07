@@ -24,7 +24,7 @@
     <env name="MINK_DRIVER_ARGS" value=''/>
     <env name="MINK_DRIVER_ARGS_PHANTOMJS" value=''/>
     <env name="MINK_DRIVER_ARGS_WEBDRIVER" value='["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu", "--no-sandbox", "--headless"]}}, "http://127.0.0.1:9515"]'/>
-
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled" />
   </php>
   <testsuites>
     <testsuite name="unit">
